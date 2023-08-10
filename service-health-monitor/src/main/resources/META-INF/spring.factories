@@ -1,0 +1,1 @@
+#org.springframework.boot.env.EnvironmentPostProcessor=kfang.agent.feature.saas.processor.AgentEnvironmentPostProcessor

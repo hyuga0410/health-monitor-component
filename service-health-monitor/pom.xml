@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>service-health-monitor</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
+    <name>service-health-monitor</name>
+    <description>服务监控</description>
+
+    <parent>
+        <groupId>com.kfang</groupId>
+        <artifactId>cloud-dependencies</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <hyuga.all.version>3.0.0-SNAPSHOT</hyuga.all.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>infra-common-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>infra-api-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>infra-service-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>infra-web-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>feature-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang</groupId>
+            <artifactId>feature-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kfang.agent</groupId>
+            <artifactId>feature-saas-core</artifactId>
+            <version>2.6.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kfang.agent</groupId>
+            <artifactId>feature-saas-context</artifactId>
+            <version>2.6.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.hyuga0410</groupId>
+            <artifactId>health-monitor-component</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- sleuth -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hyugatool</groupId>
+            <artifactId>hyugatool-all</artifactId>
+            <version>${hyuga.all.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

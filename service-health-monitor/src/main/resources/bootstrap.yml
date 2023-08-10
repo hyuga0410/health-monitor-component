@@ -1,0 +1,73 @@
+server:
+  port: 13998
+
+spring:
+  application:
+    name: service-agent-monitor
+  main:
+    allow-circular-references: true
+  cloud:
+    nacos:
+      config:
+        server-addr: test-nacos.kfang.com:8848
+        group: agent
+        namespace: 217f8867-103b-4936-9e08-375fcdfa26a0
+        extension-configs:
+          - data-id: agent-rabbitmq.properties
+            group: agent
+            refresh: true
+      discovery:
+        server-addr: test-nacos.kfang.com:8848
+        namespace: 217f8867-103b-4936-9e08-375fcdfa26a0
+  profiles:
+    active: dev
+
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,refresh
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  level:
+    com.netflix.discovery: 'OFF'
+    org.springframework.cloud: 'INFO'
+    com.alibaba.nacos.client.naming: 'WARN'
+    com.alibaba.nacos.client.config.impl.ClientWorker: 'WARN'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: pre
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos.kfang.com:8848
+        namespace: 76dc3e93-5d63-49bb-abcf-0ebbd109a0ba
+      discovery:
+        server-addr: nacos.kfang.com:8848
+        namespace: 76dc3e93-5d63-49bb-abcf-0ebbd109a0ba
+
+---
+spring:
+  config:
+    activate:
+      on-profile: pro
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos.kfang.com:8848
+        namespace: af229e84-2557-41b5-b074-709688f2db10
+      discovery:
+        server-addr: nacos.kfang.com:8848
+        namespace: af229e84-2557-41b5-b074-709688f2db10

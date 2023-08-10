@@ -1,0 +1,40 @@
+server:
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  thymeleaf:
+    prefix: classpath:/templates/
+    mode: HTML
+    cache: false
+    encoding: UTF-8
+    # 新版本不支持content-type: text/html，故新写法
+    servlet:
+      content-type: text/html
+
+ribbon:
+  #请求处理的超时时间
+  ReadTimeout: 30000
+  #请求连接的超时时间
+  ConnectTimeout: 30000
+  eager-load:
+    enabled: true
+    clients: service-detection
+
+feign:
+  hystrix:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000

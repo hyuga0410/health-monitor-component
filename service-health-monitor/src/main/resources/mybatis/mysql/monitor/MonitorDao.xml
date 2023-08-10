@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 服务日志表 -->
+<mapper namespace="com.kfang.service.agent.monitor.dao.automapper.MonitorDao">
+
+    <resultMap id="clientServiceLog" type="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
+        <id column="FID" property="id"/>
+        <result column="FIP" property="ip"/>
+        <result column="FPORT" property="port"/>
+        <result column="FNAME" property="name"/>
+        <result column="FJDK_VERSION" property="jdkVersion"/>
+        <result column="FENVIRONMENT" property="environment"/>
+        <result column="FSTATUS" property="status"/>
+        <result column="FSERVER_STATR_TIME" property="serverStartTime"/>
+        <result column="FLAST_ONLINE_TIME" property="lastOnlineTime"/>
+        <result column="FOFFLINE_DURATION" property="offlineDuration"/>
+        <result column="FONLINE_DURATION" property="onlineDuration"/>
+    </resultMap>
+
+    <insert id="insertServiceLog" useGeneratedKeys="true" keyProperty="id"
+            parameterType="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
+        insert into `agent_monitor`.
+            `t_service_log`
+        (FID, FIP, FPORT, FJDK_VERSION, FPROJECT, FNAME, FENVIRONMENT, FSTATUS, FSERVER_STATR_TIME, FLAST_ONLINE_TIME,
+         FOFFLINE_DURATION, FONLINE_DURATION)
+        values (#{id}, #{ip}, #{port}, #{jdkVersion}, #{project}, #{name}, #{environment}, #{status},
+                #{serverStartTime}, #{serverStartTime}, #{offlineDuration}, #{onlineDuration})
+    </insert>
+
+    <update id="updateLastOnlineTime" parameterType="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
+        update `agent_monitor`.
+        `t_service_log`
+        <set>
+            FSTATUS = 'ONLINE',
+            FLAST_ONLINE_TIME = #{lastOnlineTime},
+            FONLINE_DURATION = #{onlineDuration},
+            <if test="jdkVersion != null and jdkVersion != ''">FJDK_VERSION = #{jdkVersion}</if>
+        </set>
+        where FID = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
+        update `agent_monitor`.
+        `t_service_log`
+        <set>
+            <if test="lastOnlineTime != null">FLAST_ONLINE_TIME = #{lastOnlineTime},</if>
+            <if test="offlineDuration != null and offlineDuration != ''">FOFFLINE_DURATION = #{offlineDuration},</if>
+            <if test="onlineDuration != null and onlineDuration != ''">FONLINE_DURATION = #{onlineDuration},</if>
+            FSTATUS = #{status}
+        </set>
+        where FID = #{id}
+    </update>
+
+    <delete id="cleanStaleData" parameterType="string">
+        delete
+        from `agent_monitor`.`t_service_log`
+        where FSTATUS = 'OFFLINE'
+          and FLAST_ONLINE_TIME &lt; #{date} limit 500
+    </delete>
+
+    <select id="selectServiceLog"
+            resultMap="clientServiceLog"
+            parameterType="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
+        select
+        FID, FIP, FPORT, FNAME, FENVIRONMENT, FSTATUS, FSERVER_STATR_TIME, FLAST_ONLINE_TIME, FOFFLINE_DURATION,
+        FONLINE_DURATION
+        from `agent_monitor`.`t_service_log`
+        where FIP = #{ip}
+        and FPORT = #{port}
+        and FNAME = #{name}
+        <!--order by FLAST_ONLINE_TIME desc limit 1-->
+        order by FSERVER_STATR_TIME desc limit 1
+    </select>
+
+    <select id="selectServiceLogById"
+            resultMap="clientServiceLog"
+            parameterType="int">
+        select FID,
+               FIP,
+               FPORT,
+               FNAME,
+               FENVIRONMENT,
+               FSTATUS,
+               FSERVER_STATR_TIME,
+               FLAST_ONLINE_TIME,
+               FOFFLINE_DURATION,
+               FONLINE_DURATION
+        from `agent_monitor`.`t_service_log`
+        where FID = #{id} limit 1
+    </select>
+
+    <select id="selectServiceLogOnlineAll" resultMap="clientServiceLog">
+        select FID,
+               FIP,
+               FPORT,
+               FNAME,
+               FENVIRONMENT,
+               FSTATUS,
+               FSERVER_STATR_TIME,
+               FLAST_ONLINE_TIME,
+               FOFFLINE_DURATION,
+               FONLINE_DURATION
+        from `agent_monitor`.`t_service_log`
+        where FSTATUS = 'ONLINE'
+    </select>
+
+    <select id="selectServiceLogList" parameterType="io.github.hyuga0410.health.monitor.model.ServiceLogModel"
+            resultMap="clientServiceLog">
+        select
+        log.FID, FIP, FPORT, FJDK_VERSION, FNAME, FENVIRONMENT, FSTATUS, FSERVER_STATR_TIME,
+        FLAST_ONLINE_TIME, FOFFLINE_DURATION, FONLINE_DURATION
+        from `agent_monitor`.`t_service_log` log
+        inner join (select
+        max(FID) as FID
+        from `agent_monitor`.`t_service_log`
+        <where>
+            <if test="ips != null and ips.size > 0">
+                and FIP in
+                (
+                <foreach collection="ips" index="index" item="ip" separator=",">
+                    #{ip}
+                </foreach>
+                )
+            </if>
+            <choose>
+                <when test="environment == 'ALL'">
+                    and FENVIRONMENT in ('DEV', 'PRE', 'PRO')
+                </when>
+                <otherwise>
+                    and FENVIRONMENT = #{environment}
+                </otherwise>
+            </choose>
+        </where>
+        group by FIP, FPORT, FNAME) temp on temp.FID = log.FID
+        where FPROJECT = #{project}
+        order by FIP, FPORT
+    </select>
+
+</mapper>
