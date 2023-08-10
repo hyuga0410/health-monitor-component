@@ -25,7 +25,7 @@ ribbon:
   ConnectTimeout: 30000
   eager-load:
     enabled: true
-    clients: service-detection
+    clients: service-health-monitor
 
 feign:
   hystrix:

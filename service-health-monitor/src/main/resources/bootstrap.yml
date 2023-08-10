@@ -3,13 +3,13 @@ server:
 
 spring:
   application:
-    name: service-agent-monitor
+    name: service-health-monitor
   main:
     allow-circular-references: true
   cloud:
     nacos:
       config:
-        server-addr: test-nacos.kfang.com:8848
+        server-addr: test-nacos.hyuga.com:8848
         group: agent
         namespace: 217f8867-103b-4936-9e08-375fcdfa26a0
         extension-configs:
@@ -17,7 +17,7 @@ spring:
             group: agent
             refresh: true
       discovery:
-        server-addr: test-nacos.kfang.com:8848
+        server-addr: test-nacos.hyuga.com:8848
         namespace: 217f8867-103b-4936-9e08-375fcdfa26a0
   profiles:
     active: dev
@@ -52,10 +52,10 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: nacos.kfang.com:8848
+        server-addr: nacos.hyuga.com:8848
         namespace: 76dc3e93-5d63-49bb-abcf-0ebbd109a0ba
       discovery:
-        server-addr: nacos.kfang.com:8848
+        server-addr: nacos.hyuga.com:8848
         namespace: 76dc3e93-5d63-49bb-abcf-0ebbd109a0ba
 
 ---
@@ -66,8 +66,8 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: nacos.kfang.com:8848
+        server-addr: nacos.hyuga.com:8848
         namespace: af229e84-2557-41b5-b074-709688f2db10
       discovery:
-        server-addr: nacos.kfang.com:8848
+        server-addr: nacos.hyuga.com:8848
         namespace: af229e84-2557-41b5-b074-709688f2db10

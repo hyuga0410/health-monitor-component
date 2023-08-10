@@ -2,7 +2,7 @@
 
 <configuration>
     <!-- 定义日志根路径 -->
-    <property name="log.base" value="/log/kfang/services/agent/service-agent-monitor"/>
+    <property name="log.base" value="/log/hyuga/services/agent/service-health-monitor"/>
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -68,7 +68,7 @@
                 #e_logger#%n
             </pattern>
         </encoder>
-        <filter class="kfang.infra.common.logger.BootstrapLogDoneFilter">
+        <filter class="hyuga.infra.common.logger.BootstrapLogDoneFilter">
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>

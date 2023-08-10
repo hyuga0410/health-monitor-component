@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 服务日志表 -->
-<mapper namespace="com.kfang.service.agent.monitor.dao.automapper.MonitorDao">
+<mapper namespace="com.hyuga.service.agent.monitor.dao.automapper.MonitorDao">
 
     <resultMap id="clientServiceLog" type="io.github.hyuga0410.health.monitor.model.ServiceLogModel">
         <id column="FID" property="id"/>

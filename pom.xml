@@ -16,12 +16,12 @@
 
     <distributionManagement>
         <repository>
-            <id>kfang-releases</id>
+            <id>hyuga-releases</id>
             <name>Nexus Release Repository</name>
             <url>http://10.210.10.153:8081/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>kfang-snapshots</id>
+            <id>hyuga-snapshots</id>
             <name>Nexus Snapshot Repository</name>
             <url>http://10.210.10.153:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
